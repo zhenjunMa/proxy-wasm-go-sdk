@@ -22,10 +22,16 @@ import (
 type (
 	HttpCalloutCallBack = func(numHeaders, bodySize, numTrailers int)
 
+	GrpcCalloutCallBack = func(numHeaders, bodySize, numTrailers int)
+
 	rootContextState struct {
 		context       RootContext
 		httpCallbacks map[uint32]*struct {
 			callback        HttpCalloutCallBack
+			callerContextID uint32
+		}
+		grpcCallbacks map[uint32]*struct {
+			callback        GrpcCalloutCallBack
 			callerContextID uint32
 		}
 	}

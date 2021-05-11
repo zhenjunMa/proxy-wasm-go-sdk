@@ -80,6 +80,11 @@ func ProxyHttpCall(upstreamData *byte, upstreamSize int, headerData *byte, heade
 	bodyData *byte, bodySize int, trailersData *byte, trailersSize int, timeout uint32, calloutIDPtr *uint32,
 ) types.Status
 
+//export proxy_grpc_call
+func ProxyGrpcCall(serviceData *byte, serviceSize int, serviceNameData *byte, serviceNameSize int, methodData *byte, methodSize int,
+	messageData *byte, messageSize int, timeout uint32, calloutIDPtr *uint32,
+) types.Status
+
 //export proxy_set_tick_period_milliseconds
 func ProxySetTickPeriodMilliseconds(period uint32) types.Status
 
