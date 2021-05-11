@@ -23,12 +23,20 @@ type (
 	rootContextState struct {
 		context       RootContext
 		httpCallbacks map[uint32]*httpCallbackAttribute
+		grpcCallbacks map[uint32]*grpcCallbackAttribute
 	}
 
 	HttpCalloutCallBack = func(numHeaders, bodySize, numTrailers int)
 
 	httpCallbackAttribute struct {
 		callback        HttpCalloutCallBack
+		callerContextID uint32
+	}
+
+	grpcCalloutCallBack = func(numHeaders, bodySize, numTrailers int)
+
+	grpcCallbackAttribute struct {
+		callback        grpcCalloutCallBack
 		callerContextID uint32
 	}
 )

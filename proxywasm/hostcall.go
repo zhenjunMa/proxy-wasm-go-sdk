@@ -67,6 +67,20 @@ func DispatchHttpCall(upstream string,
 	}
 }
 
+func DispatchGrpcCall(service string, serviceName string, method string,
+	body []byte, timeoutMillisecond uint32, callBack grpcCalloutCallBack) (calloutID uint32, err error) {
+	s := stringBytePtr(service)
+	n := stringBytePtr(serviceName)
+	m := stringBytePtr(method)
+	switch st := rawhostcall.ProxyGrpcCall(s, len(service), n, len(serviceName), m, len(method), &body[0], len(body), timeoutMillisecond, &calloutID); st {
+	case types.StatusOK:
+		currentState.registerHttpCallOut(calloutID, callBack)
+		return calloutID, nil
+	default:
+		return 0, types.StatusToError(st)
+	}
+}
+
 func GetHttpCallResponseHeaders() (types.Headers, error) {
 	ret, st := getMap(types.MapTypeHttpCallResponseHeaders)
 	return ret, types.StatusToError(st)
