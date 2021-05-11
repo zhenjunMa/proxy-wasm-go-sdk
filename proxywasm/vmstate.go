@@ -93,6 +93,10 @@ func (s *state) createRootContext(contextID uint32) {
 			callback        HttpCalloutCallBack
 			callerContextID uint32
 		}{},
+		grpcCallbacks: map[uint32]*struct {
+			callback        GrpcCalloutCallBack
+			callerContextID uint32
+		}{},
 	}
 }
 
