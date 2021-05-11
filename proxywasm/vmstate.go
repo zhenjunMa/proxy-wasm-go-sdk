@@ -22,7 +22,7 @@ import (
 type (
 	HttpCalloutCallBack = func(numHeaders, bodySize, numTrailers int)
 
-	GrpcCalloutCallBack = func(numHeaders, bodySize, numTrailers int)
+	GrpcCalloutCallBack = func(bodySize int)
 
 	rootContextState struct {
 		context       RootContext
@@ -128,6 +128,14 @@ func (s *state) registerHttpCallOut(calloutID uint32, callback HttpCalloutCallBa
 	r := s.rootContexts[s.contextIDToRootID[s.activeContextID]]
 	r.httpCallbacks[calloutID] = &struct {
 		callback        HttpCalloutCallBack
+		callerContextID uint32
+	}{callback: callback, callerContextID: s.activeContextID}
+}
+
+func (s *state) registerGrpcCallOut(calloutID uint32, callback GrpcCalloutCallBack) {
+	r := s.rootContexts[s.contextIDToRootID[s.activeContextID]]
+	r.grpcCallbacks[calloutID] = &struct {
+		callback        GrpcCalloutCallBack
 		callerContextID uint32
 	}{callback: callback, callerContextID: s.activeContextID}
 }

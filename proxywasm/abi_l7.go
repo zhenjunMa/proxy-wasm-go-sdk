@@ -96,3 +96,21 @@ func proxyOnHttpCallResponse(rootContextID, calloutID uint32, numHeaders, bodySi
 	delete(root.httpCallbacks, calloutID)
 	cb.callback(numHeaders, bodySize, numTrailers)
 }
+
+//export proxy_on_grpc_call_response_message
+func proxyOnGrpcCallResponseMessage(rootContextID, calloutID uint32, bodySize int) {
+	root, ok := currentState.rootContexts[rootContextID]
+	if !ok {
+		panic("http_call_response on invalid root context")
+	}
+
+	cb := root.grpcCallbacks[calloutID]
+	if cb == nil {
+		panic("invalid callout id")
+	}
+
+	SetEffectiveContext(cb.callerContextID)
+	currentState.setActiveContextID(cb.callerContextID)
+	delete(root.httpCallbacks, calloutID)
+	cb.callback(bodySize)
+}
