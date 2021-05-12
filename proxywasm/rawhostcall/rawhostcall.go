@@ -85,6 +85,9 @@ func ProxyGrpcCall(serviceData *byte, serviceSize int, serviceNameData *byte, se
 	messageData *byte, messageSize int, timeout uint32, calloutIDPtr *uint32,
 ) types.Status
 
+//export proxy_call_foreign_function
+func ProxyCallForeignFunction(funcNamePtr *byte, funcNameSize int, paramPtr *byte, paramSize int, returnData **byte, returnSize *int) types.Status
+
 //export proxy_set_tick_period_milliseconds
 func ProxySetTickPeriodMilliseconds(period uint32) types.Status
 

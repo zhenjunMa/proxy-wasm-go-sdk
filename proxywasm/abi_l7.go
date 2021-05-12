@@ -101,7 +101,7 @@ func proxyOnHttpCallResponse(rootContextID, calloutID uint32, numHeaders, bodySi
 func proxyOnGrpcCallResponseMessage(rootContextID, calloutID uint32, bodySize int) {
 	root, ok := currentState.rootContexts[rootContextID]
 	if !ok {
-		panic("http_call_response on invalid root context")
+		panic("grpc_call_response on invalid root context")
 	}
 
 	cb := root.grpcCallbacks[calloutID]
